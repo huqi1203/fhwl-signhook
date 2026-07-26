@@ -21,7 +21,11 @@ public class SignHttpServer extends NanoHTTPD {
     public static synchronized void startServer() {
         if (instance != null) return;
         instance = new SignHttpServer(DEFAULT_PORT);
-        instance.start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
+        try {
+                instance.start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
+            } catch (java.io.IOException e) {
+                de.robv.android.xposed.XposedBridge.log("[FHWL-SignHook] Server start IOException: " + e.getMessage());
+            }
         StatusHolder.getInstance().port = DEFAULT_PORT;
         XposedBridge.log("[FHWL-SignHook] HTTP server on 0.0.0.0:" + DEFAULT_PORT);
     }
