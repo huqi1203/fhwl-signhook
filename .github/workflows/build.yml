@@ -1,0 +1,35 @@
+name: Build APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew assembleRelease --no-daemon
+
+      - name: Sign APK (debug key for LSPatch)
+        run: |
+          mkdir -p signed
+          cp app/build/outputs/apk/release/app-release-unsigned.apk signed/fhwl-signhook-unsigned.apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: fhwl-signhook-apk
+          path: app/build/outputs/apk/release/*.apk

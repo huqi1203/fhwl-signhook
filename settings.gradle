@@ -1,0 +1,2 @@
+rootProject.name = "FH-WL-SignHook"
+include ':app'

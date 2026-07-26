@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.fhwl.signhook">
+
+    <application
+        android:allowBackup="true"
+        android:label="FHWL-SignHook">
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true" />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="FHWL加解密HTTP服务 - LSPatch集成，无需root" />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="82" />
+        <meta-data
+            android:name="xposedscope"
+            android:value="com.mytek.rtlive" />
+    </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+</manifest>
