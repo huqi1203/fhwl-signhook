@@ -2,6 +2,7 @@ package com.fhwl.signhook;
 
 import de.robv.android.xposed.XposedBridge;
 import fi.iki.elonen.NanoHTTPD;
+import fi.iki.elonen.NanoHTTPD.Response.Status;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

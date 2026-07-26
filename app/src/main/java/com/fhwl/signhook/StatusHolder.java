@@ -4,12 +4,12 @@ import de.robv.android.xposed.XposedBridge;
 
 public class StatusHolder {
     private static final StatusHolder INSTANCE = new StatusHolder();
-    
+
     private volatile boolean ready = false;
     private volatile int encryptCalls = 0;
     private volatile int decryptCalls = 0;
     private volatile String lastError = "";
-    private volatile int port = 18888;
+    public volatile int port = 18888;
     private volatile long startTime = 0;
 
     private StatusHolder() {}
@@ -34,17 +34,19 @@ public class StatusHolder {
     public long getUptime() { return ready ? System.currentTimeMillis() - startTime : 0; }
 
     public String toJson() {
-        return "{\"ok\":true,\"hooked\":" + ready +
-            ",\"encrypt_calls\":" + encryptCalls +
-            ",\"decrypt_calls\":" + decryptCalls +
-            ",\"port\":" + port +
-            ",\"uptime_ms\":" + getUptime() +
-            ",\"last_error\":\"" + jsonEsc(lastError) + "\"}";
+        StringBuilder sb = new StringBuilder();
+        sb.append("{"ok":true,"hooked":").append(ready);
+        sb.append(","encrypt_calls":").append(encryptCalls);
+        sb.append(","decrypt_calls":").append(decryptCalls);
+        sb.append(","port":").append(port);
+        sb.append(","uptime_ms":").append(getUptime());
+        sb.append(","last_error":"").append(jsonEsc(lastError)).append(""}");
+        return sb.toString();
     }
 
     private static String jsonEsc(String s) {
         if (s == null) return "";
-        return s.replace("\\", "\\\\").replace("\"", "\\\"")
+        return s.replace("\\", "\\\\").replace(""", "\\"")
                 .replace("\n", "\\n").replace("\r", "\\r");
     }
 }
