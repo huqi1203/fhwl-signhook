@@ -35,18 +35,27 @@ public class StatusHolder {
 
     public String toJson() {
         StringBuilder sb = new StringBuilder();
-        sb.append("{"ok":true,"hooked":").append(ready);
-        sb.append(","encrypt_calls":").append(encryptCalls);
-        sb.append(","decrypt_calls":").append(decryptCalls);
-        sb.append(","port":").append(port);
-        sb.append(","uptime_ms":").append(getUptime());
-        sb.append(","last_error":"").append(jsonEsc(lastError)).append(""}");
+        sb.append("{\"ok\":true,\"hooked\":").append(ready);
+        sb.append(",\"encrypt_calls\":").append(encryptCalls);
+        sb.append(",\"decrypt_calls\":").append(decryptCalls);
+        sb.append(",\"port\":").append(port);
+        sb.append(",\"uptime_ms\":").append(getUptime());
+        sb.append(",\"last_error\":\"").append(jsonEsc(lastError)).append("\"}");
         return sb.toString();
     }
 
     private static String jsonEsc(String s) {
         if (s == null) return "";
-        return s.replace("\\", "\\\\").replace(""", "\\"")
-                .replace("\n", "\\n").replace("\r", "\\r");
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '\\') { sb.append("\\\\"); }
+            else if (c == '"') { sb.append("\\\""); }
+            else if (c == '\n') { sb.append("\\n"); }
+            else if (c == '\r') { sb.append("\\r"); }
+            else if (c == '\t') { sb.append("\\t"); }
+            else { sb.append(c); }
+        }
+        return sb.toString();
     }
 }
