@@ -17,16 +17,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
 
       - name: Build with Gradle
-        run: ./gradlew assembleRelease --no-daemon
-
-      - name: Sign APK (debug key for LSPatch)
-        run: |
-          mkdir -p signed
-          cp app/build/outputs/apk/release/app-release-unsigned.apk signed/fhwl-signhook-unsigned.apk
+        run: gradle assembleRelease --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
