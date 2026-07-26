@@ -22,7 +22,11 @@ public class SignHttpServer extends NanoHTTPD {
         if (instance != null) return;
         instance = new SignHttpServer(DEFAULT_PORT);
         try {
+                try {
                 instance.start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
+            } catch (java.io.IOException e) {
+                de.robv.android.xposed.XposedBridge.log("[FHWL-SignHook] IOException: " + e.getMessage());
+            }
             } catch (java.io.IOException e) {
                 de.robv.android.xposed.XposedBridge.log("[FHWL-SignHook] Server start IOException: " + e.getMessage());
             }
